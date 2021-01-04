@@ -4,6 +4,7 @@ import 'package:hoteles/core/models/hotelModel.dart';
 import 'package:hoteles/core/viewmodels/CRUDHotel.dart';
 import 'package:hoteles/hotel/widgets/HotelCard.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class HotelIndex extends StatefulWidget {
   @override
@@ -17,7 +18,7 @@ class _HotelIndexState extends State<HotelIndex> {
   Widget build(BuildContext context) {
     final hotelProvider = Provider.of<CRUDHotel>(
         context); //aqui mando a llamar a la instancia del modelo a usar
-
+    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         //este es el boton con la accion de llevarnos al formulario para cear productos
@@ -28,6 +29,16 @@ class _HotelIndexState extends State<HotelIndex> {
       ),
       appBar: AppBar(
         title: Center(child: Text('Home')),
+        actions: <Widget>[
+          IconButton(
+            iconSize: 35,
+            icon: Icon(Icons.input),
+            onPressed: () async {
+              await _firebaseAuth.signOut();
+              Navigator.of(context).pushNamed('/');
+            },
+          ),
+        ],
       ),
       body: Container(
         child: StreamBuilder(

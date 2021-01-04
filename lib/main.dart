@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:hoteles/core/viewmodels/CRUDHabitacion.dart';
 import 'package:hoteles/core/viewmodels/CRUDHotel.dart';
 import 'package:hoteles/locator.dart';
 import 'package:hoteles/router.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => locator<CRUDHotel>()),
+        ChangeNotifierProvider(create: (_) => locator<CRUDHabitacion>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

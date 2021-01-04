@@ -41,4 +41,8 @@ class CRUDHotel extends ChangeNotifier {
 
     return;
   }
+
+  Stream<QuerySnapshot> filtroHotel(String filtro) {
+    return _api.filtroNombre(filtro);
+  }
 }
