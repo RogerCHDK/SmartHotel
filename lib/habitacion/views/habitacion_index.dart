@@ -38,6 +38,7 @@ class _HabitacionIndexState extends State<HabitacionIndex> {
       ),
       appBar: AppBar(
         title: Center(child: Text('Habitacion')),
+        automaticallyImplyLeading: false,
       ),
       body: Container(
         child: FutureBuilder(
