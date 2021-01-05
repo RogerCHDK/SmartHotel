@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hoteles/habitacion/views/habitacion_index.dart';
 import 'package:hoteles/hotel/views/hotel_index.dart';
 import 'package:hoteles/hotel/views/hotel_show_admon.dart';
 
@@ -17,7 +18,7 @@ class _MyTabBar extends State<MyTabBar> {
   Widget build(BuildContext context) {
     final List<Widget> widgetsChildren = [
       HotelShowAdmon(),
-      HotelIndex(),
+      HabitacionIndex(),
       HotelIndex(),
     ];
     return Scaffold(

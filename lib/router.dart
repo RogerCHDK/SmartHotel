@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hoteles/habitacion/views/habitacion_create.dart';
 import 'package:hoteles/hotel/views/hotel_create.dart';
 import 'package:hoteles/hotel/views/hotel_index.dart';
 import 'package:hoteles/hotel/views/hotel_show.dart';
@@ -14,6 +15,8 @@ class Ruta {
         return MaterialPageRoute(builder: (_) => MyTabBar());
       case '/agregarHotel':
         return MaterialPageRoute(builder: (_) => HotelCreate());
+      case '/agregarHabitacion':
+        return MaterialPageRoute(builder: (_) => HabitacionCreate());
       /*case '/hotelShow':
         return MaterialPageRoute(builder: (_) => HotelShow());*/
       default:

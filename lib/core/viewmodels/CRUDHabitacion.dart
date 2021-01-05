@@ -42,7 +42,7 @@ class CRUDHabitacion extends ChangeNotifier {
     return;
   }
 
-  Stream<QuerySnapshot> filtroHotel(String filtro) {
+  Stream<QuerySnapshot> filtroHabitacion(String filtro) {
     return _api.filtroNombre(filtro);
   }
 }
