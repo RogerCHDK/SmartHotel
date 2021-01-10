@@ -23,40 +23,24 @@ class HabitacionCard extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               children: <Widget>[
+                Hero(
+                  tag: habitacionDetails.id,
+                  child: Image.asset(
+                    'assets/img/habitacion.jpg',
+                    height: MediaQuery.of(context).size.height * 0.35,
+                  ),
+                ),
                 Padding(
                   padding: EdgeInsets.all(16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        habitacionDetails.numero_habitacion,
+                        'Habitación Num. ${habitacionDetails.numero_habitacion}',
                         style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 22,
                             fontStyle: FontStyle.italic),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        habitacionDetails.precio,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 22,
-                            fontStyle: FontStyle.italic),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        habitacionDetails.id_administrador,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 22,
-                            fontStyle: FontStyle.italic),
-                      ),
-                      SizedBox(
-                        height: 20,
                       ),
                     ],
                   ),

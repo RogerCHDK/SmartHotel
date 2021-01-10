@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:hoteles/core/models/hotelModel.dart';
 import 'package:hoteles/core/services/menu_provider.dart';
 import 'package:hoteles/core/viewmodels/CRUDHotel.dart';
+import 'package:hoteles/core/viewmodels/CRUDUser.dart';
 import 'package:hoteles/widgets/my_tab_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'hotel_modify.dart';
 
-class HotelShowAdmon extends StatefulWidget {
+class HotelIndexUser extends StatefulWidget {
   @override
-  _HotelShowAdmonState createState() => _HotelShowAdmonState();
+  _HotelIndexUserState createState() => _HotelIndexUserState();
 }
 
-class _HotelShowAdmonState extends State<HotelShowAdmon> {
+class _HotelIndexUserState extends State<HotelIndexUser> {
   FirebaseUser user;
   List<Hotel> hotel;
 
@@ -32,6 +33,7 @@ class _HotelShowAdmonState extends State<HotelShowAdmon> {
   @override
   Widget build(BuildContext context) {
     final hotelProvider = Provider.of<CRUDHotel>(context);
+    final userProvider = Provider.of<CRUDUser>(context);
     final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
     return FutureBuilder(
       future: menuProvider.cargardatos(),

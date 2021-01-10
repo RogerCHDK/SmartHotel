@@ -34,7 +34,7 @@ class _HabitacionCreateState extends State<HabitacionCreate> {
     return Scaffold(
       appBar: AppBar(
         title: Center(
-          child: Text('Modificar Habitacion'),
+          child: Text('Crear Habitacion'),
         ),
       ),
       body: Padding(

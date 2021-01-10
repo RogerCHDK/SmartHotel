@@ -40,32 +40,59 @@ class HabitacionShow extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
+          Hero(
+            tag: "he",
+            child: Image.asset(
+              'assets/img/habitacion.jpg',
+              height: MediaQuery.of(context).size.height * 0.35,
+            ),
+          ),
           Text(
-            habitacion.numero_habitacion,
+            'Número de habitación: ${habitacion.numero_habitacion}',
             style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 22,
-                fontStyle: FontStyle.italic),
+                fontFamily: 'Lato',
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 20,
           ),
           Text(
-            habitacion.id_administrador,
+            'Tipo de habitación: ${habitacion.tipo_habitacion}',
             style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 22,
-                fontStyle: FontStyle.italic),
+                fontFamily: 'Lato',
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 20,
           ),
           Text(
-            habitacion.precio,
+            'Piso de la habitación: ${habitacion.piso}',
             style: TextStyle(
-                fontWeight: FontWeight.w900,
-                fontSize: 22,
-                fontStyle: FontStyle.italic),
+                fontFamily: 'Lato',
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Vista de la habitación: ${habitacion.vista}',
+            style: TextStyle(
+                fontFamily: 'Lato',
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Text(
+            'Precio de la habitación: ${habitacion.precio}',
+            style: TextStyle(
+                fontFamily: 'Lato',
+                fontSize: 28.0,
+                fontWeight: FontWeight.bold),
           ),
           SizedBox(
             height: 20,

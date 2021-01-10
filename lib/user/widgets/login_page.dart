@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.of(context).pushNamed('/principal');
         } else {
           print("Es consultor");
-          Navigator.of(context).pushNamed('/principal');
+          Navigator.of(context).pushNamed('/user');
         }
       }
     });

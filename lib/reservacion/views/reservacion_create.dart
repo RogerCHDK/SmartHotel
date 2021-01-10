@@ -30,7 +30,11 @@ class _ReservacionCreateState extends State<ReservacionCreate> {
     for (Habitacion habitacion in habitaciones) {
       items.add(DropdownMenuItem(
         value: habitacion.id,
-        child: Text(habitacion.numero_habitacion),
+        child: Text(
+          'Habitacion ${habitacion.numero_habitacion} ${habitacion.tipo_habitacion}',
+          style: TextStyle(
+              fontFamily: 'Lato', fontSize: 18.0, fontWeight: FontWeight.bold),
+        ),
       ));
     }
     return items;
@@ -138,7 +142,19 @@ class _ReservacionCreateState extends State<ReservacionCreate> {
               SizedBox(
                 height: 16,
               ),
-              combobox_habitaciones,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text(
+                    "Habitacion",
+                    style: TextStyle(
+                        fontFamily: 'Lato',
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  combobox_habitaciones,
+                ],
+              ),
               SizedBox(
                 height: 16,
               ),

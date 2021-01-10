@@ -3,8 +3,9 @@ import 'package:hoteles/habitacion/views/habitacion_create.dart';
 import 'package:hoteles/hotel/views/hotel_create.dart';
 import 'package:hoteles/hotel/views/hotel_index.dart';
 import 'package:hoteles/hotel/views/hotel_show.dart';
-import 'package:hoteles/user/login_page.dart';
+import 'package:hoteles/user/widgets/login_page.dart';
 import 'package:hoteles/widgets/my_tab_bar.dart';
+import 'package:hoteles/widgets/tab_bar_user.dart';
 
 class Ruta {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -13,6 +14,8 @@ class Ruta {
         return MaterialPageRoute(builder: (_) => LoginPage());
       case '/principal':
         return MaterialPageRoute(builder: (_) => MyTabBar());
+      case '/user':
+        return MaterialPageRoute(builder: (_) => TabBarUser());
       case '/agregarHotel':
         return MaterialPageRoute(builder: (_) => HotelCreate());
       case '/agregarHabitacion':
