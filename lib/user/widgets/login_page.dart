@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_buttons/grouped_buttons.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hoteles/user/widgets/button_green.dart';
+import 'package:hoteles/user/widgets/gradient_back.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -22,6 +24,7 @@ class _LoginPageState extends State<LoginPage> {
   String _apellido_p;
   String _apellido_m;
   FormType _formType = FormType.login;
+  double screenWidht;
 
   CollectionReference users = Firestore.instance.collection('usuarios');
 
@@ -152,20 +155,44 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      appBar: new AppBar(
-        title: new Text("Login"),
-      ),
-      body: SingleChildScrollView(
-        child: new Container(
-          padding: EdgeInsets.all(20.0),
-          child: new Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: buildSubmitButtons(),
-              )),
-        ),
+    screenWidht = MediaQuery.of(context).size.width;
+    return Scaffold(
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          GradientBack(
+              height:
+                  null), //al pasarle el heigth como null se pone en automatico en fullscreen
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                //Esto no permitira que haya desbordmiento de texto
+                child: Container(
+                  width:
+                      screenWidht, //Aqui es donde se evita el desbordamiento haciendo que se ajuste a la pantalla
+                  child: Text(
+                    "Bienvenido a \n SmarHotel",
+                    style: TextStyle(
+                        fontSize: 37.0,
+                        fontFamily: "Lato",
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(20.0),
+                child: new Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: buildSubmitButtons(),
+                    )),
+              ),
+            ],
+          )
+        ],
       ),
     );
   }
@@ -174,77 +201,209 @@ class _LoginPageState extends State<LoginPage> {
     if (_formType == FormType.login) {
       return [
         TextFormField(
-          decoration: InputDecoration(labelText: "Email"),
+          decoration: InputDecoration(
+            labelText: "Email",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            fillColor: Colors.white,
+            filled: true,
+          ),
           validator: (value) => value.isEmpty ? 'Campo vacío' : null,
           onSaved: (value) => _email = value,
         ),
+        SizedBox(
+          height: 16,
+        ),
         TextFormField(
-          decoration: InputDecoration(labelText: "Constraseña"),
+          decoration: InputDecoration(
+            labelText: "Constraseña",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            fillColor: Colors.white,
+            filled: true,
+          ),
           obscureText: true,
           validator: (value) => value.isEmpty ? 'Campo vacío' : null,
           onSaved: (value) => _password = value,
         ),
-        RaisedButton(
-          child: Text("Login", style: TextStyle(fontSize: 18.0)),
-          onPressed: validateAndSubmit,
+        InkWell(
+          onTap:
+              validateAndSubmit, //poniendo widget. podemos acceder a las propiedades de la otra clase
+          child: Container(
+            margin: EdgeInsets.only(
+              top: 30.0,
+              left: 20.0,
+              right: 20.0,
+            ),
+            height: 50.0,
+            width: 300.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFa7ff84), //color de arriba
+                  Color(0xFF1cbb78) //color de abajo
+                ],
+                begin: FractionalOffset(0.2, 0.0),
+                end: FractionalOffset(1.0, 0.6),
+                stops: [0.0, 0.6],
+                tileMode: TileMode.clamp,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                "Login",
+                style: TextStyle(
+                    fontSize: 18.0, fontFamily: "Lato", color: Colors.white),
+              ),
+            ),
+          ),
         ),
         FlatButton(
             onPressed: moveToRegister,
             child: Text(
               "¿No tienes cuenta? Registrate",
               style: TextStyle(
-                  fontSize: 15.0, decoration: TextDecoration.underline),
+                  fontSize: 15.0,
+                  decoration: TextDecoration.underline,
+                  color: Colors.white),
             ))
       ];
     } else {
       return [
         TextFormField(
-          decoration: InputDecoration(labelText: "Nombre"),
+          decoration: InputDecoration(
+            labelText: "Nombre",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            fillColor: Colors.white,
+            filled: true,
+          ),
           validator: (value) => value.isEmpty ? 'Campo vacío' : null,
           onSaved: (value) => _nombre = value,
         ),
+        SizedBox(
+          height: 16,
+        ),
         TextFormField(
-          decoration: InputDecoration(labelText: "Apellido Paterno"),
+          decoration: InputDecoration(
+            labelText: "Apellido Paterno",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            fillColor: Colors.white,
+            filled: true,
+          ),
           validator: (value) => value.isEmpty ? 'Campo vacío' : null,
           onSaved: (value) => _apellido_p = value,
         ),
+        SizedBox(
+          height: 16,
+        ),
         TextFormField(
-          decoration: InputDecoration(labelText: "Apellido Materno"),
+          decoration: InputDecoration(
+            labelText: "Apellido Materno",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            fillColor: Colors.white,
+            filled: true,
+          ),
           validator: (value) => value.isEmpty ? 'Campo vacío' : null,
           onSaved: (value) => _apellido_m = value,
         ),
+        SizedBox(
+          height: 16,
+        ),
         TextFormField(
-          decoration: InputDecoration(labelText: "Email"),
+          decoration: InputDecoration(
+            labelText: "Email",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            fillColor: Colors.white,
+            filled: true,
+          ),
           validator: (value) => value.isEmpty ? 'Campo vacío' : null,
           onSaved: (value) => _email = value,
         ),
+        SizedBox(
+          height: 16,
+        ),
         TextFormField(
-          decoration: InputDecoration(labelText: "Constraseña"),
+          decoration: InputDecoration(
+            labelText: "Constraseña",
+            border:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+            fillColor: Colors.white,
+            filled: true,
+          ),
           obscureText: true,
           validator: (value) => value.isEmpty ? 'Campo vacío' : null,
           onSaved: (value) => _password = value,
         ),
         RadioButtonGroup(
-            labels: [
-              "Administrador",
-              "Consultor",
-            ],
-            onChange: (String label, int index) =>
-                print("label: $label index: $index"),
-            onSelected: (String label) {
-              _tipo = label;
-            }),
-        RaisedButton(
-          child: Text("Crear cuenta", style: TextStyle(fontSize: 18.0)),
-          onPressed: validateAndSubmit,
+          labels: [
+            "Administrador",
+            "Consultor",
+          ],
+          orientation: GroupedButtonsOrientation.HORIZONTAL,
+          activeColor: Colors.white,
+          margin: EdgeInsets.only(left: 50.0),
+          labelStyle: TextStyle(color: Colors.white),
+          onChange: (String label, int index) =>
+              print("label: $label index: $index"),
+          onSelected: (String label) {
+            _tipo = label;
+          },
+          itemBuilder: (Radio rb, Text txt, int i) {
+            return Row(
+              children: <Widget>[
+                rb,
+                txt,
+              ],
+            );
+          },
+        ),
+        InkWell(
+          onTap:
+              validateAndSubmit, //poniendo widget. podemos acceder a las propiedades de la otra clase
+          child: Container(
+            margin: EdgeInsets.only(
+              top: 10.0,
+              left: 20.0,
+              right: 20.0,
+            ),
+            height: 50.0,
+            width: 300.0,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30.0),
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFa7ff84), //color de arriba
+                  Color(0xFF1cbb78) //color de abajo
+                ],
+                begin: FractionalOffset(0.2, 0.0),
+                end: FractionalOffset(1.0, 0.6),
+                stops: [0.0, 0.6],
+                tileMode: TileMode.clamp,
+              ),
+            ),
+            child: Center(
+              child: Text(
+                "Crear cuenta",
+                style: TextStyle(
+                    fontSize: 18.0, fontFamily: "Lato", color: Colors.white),
+              ),
+            ),
+          ),
         ),
         FlatButton(
             onPressed: moveToLogin,
             child: Text(
               "¿Tienes cuenta? Logeate",
               style: TextStyle(
-                  fontSize: 15.0, decoration: TextDecoration.underline),
-            ))
+                  fontSize: 15.0,
+                  decoration: TextDecoration.underline,
+                  color: Colors.white),
+            )),
       ];
     }
   }
