@@ -3,6 +3,7 @@ import 'package:hoteles/habitacion/views/habitacion_index.dart';
 import 'package:hoteles/hotel/views/hotel_index.dart';
 import 'package:hoteles/hotel/views/hotel_show_admon.dart';
 import 'package:hoteles/reservacion/views/reservacion_create.dart';
+import 'package:hoteles/user/views/profile.dart';
 
 class MyTabBar extends StatefulWidget {
   @override
@@ -20,7 +21,7 @@ class _MyTabBar extends State<MyTabBar> {
     final List<Widget> widgetsChildren = [
       HotelShowAdmon(),
       HabitacionIndex(),
-      ReservacionCreate(),
+      Profile(),
     ];
     return Scaffold(
       body: widgetsChildren[indexTap],
