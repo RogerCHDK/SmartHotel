@@ -4,32 +4,13 @@ import 'package:hoteles/core/viewmodels/CRUDUser.dart';
 import 'package:provider/provider.dart';
 
 class UserInfo extends StatelessWidget {
+  String usuario_id;
+  UserInfo(this.usuario_id);
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: menuProvider.cargardatos(),
-        builder: (context, datos) {
-          switch (datos.connectionState) {
-            case ConnectionState.waiting:
-              return CircularProgressIndicator();
-            case ConnectionState.done:
-              return usuarioLoggeado(datos.data.uid, context);
-
-            case ConnectionState.active:
-              return usuarioLoggeado(datos.data.uid, context);
-
-            case ConnectionState.none:
-              return CircularProgressIndicator();
-            default:
-              return usuarioLoggeado(datos.data.uid, context);
-          }
-        });
-  }
-
-  Widget usuarioLoggeado(String id, BuildContext context) {
     final userProvider = Provider.of<CRUDUser>(context);
     return FutureBuilder(
-        future: userProvider.getUserById(id),
+        future: userProvider.getUserById(usuario_id),
         builder: (context, user) {
           switch (user.connectionState) {
             case ConnectionState.waiting:

@@ -19,9 +19,9 @@ class _MyTabBar extends State<MyTabBar> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> widgetsChildren = [
-      HotelShowAdmon(),
-      HabitacionIndex(),
       Profile(),
+      HabitacionIndex(),
+      ReservacionCreate(),
     ];
     return Scaffold(
       body: widgetsChildren[indexTap],
