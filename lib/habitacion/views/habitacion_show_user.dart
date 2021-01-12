@@ -8,7 +8,12 @@ import 'package:hoteles/core/services/menu_provider.dart';
 import 'package:hoteles/core/viewmodels/CRUDHabitacion.dart';
 import 'package:hoteles/core/viewmodels/CRUDHotel.dart';
 import 'package:hoteles/core/viewmodels/CRUDReservacion.dart';
+import 'package:hoteles/reservacion/views/info_reservacion.dart';
+import 'package:hoteles/user/views/profile_header_user.dart';
+import 'package:hoteles/widgets/card_image_list.dart';
+import 'package:hoteles/widgets/circle_button.dart';
 import 'package:hoteles/widgets/my_tab_bar.dart';
+import 'package:hoteles/widgets/profile_background.dart';
 import 'package:provider/provider.dart';
 
 class HabitacionShowUser extends StatefulWidget {
@@ -20,147 +25,106 @@ class _HabitacionShowUserState extends State<HabitacionShowUser> {
   FirebaseUser user;
   List<Reservacion> reservacion;
   String habitacion;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
     final habitacionProvider = Provider.of<CRUDHabitacion>(context);
-
-    final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(child: Text("Mi Habitacion")),
-        automaticallyImplyLeading: false,
-        actions: [
-          IconButton(
-            iconSize: 35,
-            icon: Icon(Icons.input),
-            onPressed: () async {
-              await _firebaseAuth.signOut();
-              Navigator.of(context).pushNamed('/');
-            },
-          ),
-        ],
-      ),
-      body: FutureBuilder(
-        future: menuProvider.cargardatos(),
-        builder: (context, datos) {
-          return getReservacion(context, datos.data.email);
-        },
-      ),
-    );
-
-    /*return FutureBuilder(
+    return FutureBuilder(
       future: menuProvider.cargardatos(),
       builder: (context, datos) {
-        return getReservacion(context, datos.data.email);
+        switch (datos.connectionState) {
+          case ConnectionState.waiting:
+            return CircularProgressIndicator();
+          case ConnectionState.done:
+            return getReservacion(context, datos.data.email, datos.data.uid);
+
+          case ConnectionState.active:
+            return getReservacion(context, datos.data.email, datos.data.uid);
+
+          case ConnectionState.none:
+            return CircularProgressIndicator();
+          default:
+            return getReservacion(context, datos.data.email, datos.data.uid);
+        }
       },
-    );*/
+    );
   }
 
-  Widget getReservacion(BuildContext context, String email) {
+  Widget getReservacion(BuildContext context, String email, String usuario) {
     final reservacionProvider = Provider.of<CRUDReservacion>(context);
     List<Reservacion> reservacion;
     return StreamBuilder(
         stream: reservacionProvider.filtroCorreo(email),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          reservacion = snapshot.data.documents
-              .map((doc) => Reservacion.fromMap(doc.data, doc.documentID))
-              .toList();
-          return getHabitacion(context, reservacion.first.id_habitacion,
-              reservacion.first.dias, reservacion.first.horas);
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return CircularProgressIndicator();
+            case ConnectionState.done:
+              return getHabitacion(context, snapshot, usuario);
+
+            case ConnectionState.active:
+              return getHabitacion(context, snapshot, usuario);
+
+            case ConnectionState.none:
+              return CircularProgressIndicator();
+            default:
+              return getHabitacion(context, snapshot, usuario);
+          }
         });
   }
 
   Widget getHabitacion(
-      BuildContext context, String id, String dias, String horas) {
+      BuildContext context, AsyncSnapshot<QuerySnapshot> aux, String usuario) {
     final habitacionP = Provider.of<CRUDHabitacion>(context);
+    reservacion = aux.data.documents
+        .map((doc) => Reservacion.fromMap(doc.data, doc.documentID))
+        .toList();
     return FutureBuilder(
-      future: habitacionP.getHabitacionById(id),
+      future: habitacionP.getHabitacionById(reservacion.first.id_habitacion),
       builder: (context, datos) {
-        habitacion = datos.data.tipo_habitacion;
-        return Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Hero(
-                tag: "he",
-                child: Image.asset(
-                  'assets/img/habitacion.jpg',
-                  height: MediaQuery.of(context).size.height * 0.35,
-                ),
-              ),
-              Text(
-                'Número de habitación: ${datos.data.numero_habitacion}',
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Tipo de habitación: ${datos.data.tipo_habitacion}',
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Piso de la habitación: ${datos.data.piso}',
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Vista de la habitación: ${datos.data.vista}',
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Precio de la habitación: ${datos.data.precio}',
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Dias: ${dias}',
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Horas: ${horas}',
-                style: TextStyle(
-                    fontFamily: 'Lato',
-                    fontSize: 28.0,
-                    fontWeight: FontWeight.bold),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ]);
+        switch (datos.connectionState) {
+          case ConnectionState.waiting:
+            return CircularProgressIndicator();
+          case ConnectionState.done:
+            return showInformacion(datos, reservacion.first, usuario);
+
+          case ConnectionState.active:
+            return showInformacion(datos, reservacion.first, usuario);
+
+          case ConnectionState.none:
+            return CircularProgressIndicator();
+          default:
+            return showInformacion(datos, reservacion.first, usuario);
+        }
       },
+    );
+  }
+
+  Widget showInformacion(AsyncSnapshot<Habitacion> habitacion,
+      Reservacion reservacion, String usuario) {
+    return Stack(
+      children: <Widget>[
+        ProfileBackground(),
+        ListView(
+          children: <Widget>[
+            ProfileHeaderUser(usuario, habitacion.data.numero_habitacion),
+            Padding(
+                padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 10.0),
+                child: Row(
+                  children: <Widget>[
+                    CircleButton(true, Icons.exit_to_app, 20.0,
+                        Color.fromRGBO(255, 255, 255, 0.6), () async {
+                      await _firebaseAuth.signOut();
+                      Navigator.of(context).pushNamed('/');
+                    }),
+                  ],
+                )),
+            CardImageList(),
+            InfoReservacion(habitacion.data, reservacion),
+          ],
+        ),
+      ],
     );
   }
 }

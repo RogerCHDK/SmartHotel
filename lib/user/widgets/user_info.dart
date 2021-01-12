@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hoteles/core/models/userModel.dart';
 import 'package:hoteles/core/services/menu_provider.dart';
 import 'package:hoteles/core/viewmodels/CRUDUser.dart';
 import 'package:provider/provider.dart';
@@ -16,20 +17,36 @@ class UserInfo extends StatelessWidget {
             case ConnectionState.waiting:
               return CircularProgressIndicator();
             case ConnectionState.done:
-              return usuarioInfo(user.data.nombre, user.data.correo);
+              return usuarioInfo(user.data);
 
             case ConnectionState.active:
-              return usuarioInfo(user.data.nombre, user.data.correo);
+              return usuarioInfo(user.data);
 
             case ConnectionState.none:
               return CircularProgressIndicator();
             default:
-              return usuarioInfo(user.data.nombre, user.data.correo);
+              return usuarioInfo(user.data);
           }
         });
   }
 
-  Widget usuarioInfo(String nombre, String correo) {
+  Widget usuarioInfo(User usuario) {
+    final userPhotoAdmon = Container(
+      width: 90.0,
+      height: 90.0,
+      margin: EdgeInsets.only(right: 20.0),
+      decoration: BoxDecoration(
+          border: Border.all(
+              color: Colors.white, width: 2.0, style: BorderStyle.solid),
+          shape: BoxShape.circle,
+          image: DecorationImage(
+              fit: BoxFit.cover,
+              //image: AssetImage(user.photoURL)
+              image: NetworkImage(
+                  "https://image.freepik.com/vector-gratis/perfil-hombre-dibujos-animados_18591-58483.jpg") //traer una foto de internet
+              )),
+    );
+
     final userPhoto = Container(
       width: 90.0,
       height: 90.0,
@@ -42,7 +59,7 @@ class UserInfo extends StatelessWidget {
               fit: BoxFit.cover,
               //image: AssetImage(user.photoURL)
               image: NetworkImage(
-                  "https://holatelcel.com/wp-content/uploads/2020/07/como-descargar-la-foto-de-perfil-de-whatsapp-de-un-contacto.png") //traer una foto de internet
+                  "https://www.lapi.com.mx/image.ashx?s=57067&im=115316&t=p") //traer una foto de internet
               )),
     );
 
@@ -51,24 +68,34 @@ class UserInfo extends StatelessWidget {
       children: <Widget>[
         Container(
             margin: EdgeInsets.only(bottom: 5.0),
-            child: Text(nombre,
+            child: Text(
+                "${usuario.nombre} ${usuario.apellido_p} ${usuario.apellido_m}",
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   fontFamily: 'Lato',
                 ))),
-        Text(correo,
+        Text(usuario.correo,
             style: TextStyle(
-                fontSize: 15.0, color: Colors.white30, fontFamily: 'Lato')),
+                fontSize: 15.0, color: Colors.white54, fontFamily: 'Lato')),
       ],
     );
 
-    return Container(
-      margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 0.0),
-      child: Row(
-        children: <Widget>[userPhoto, userInfo],
-      ),
-    );
+    if (usuario.tipo.compareTo("Administrador") == 0) {
+      return Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 0.0),
+        child: Row(
+          children: <Widget>[userPhotoAdmon, userInfo],
+        ),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.symmetric(vertical: 20.0, horizontal: 0.0),
+        child: Row(
+          children: <Widget>[userPhoto, userInfo],
+        ),
+      );
+    }
   }
 }
