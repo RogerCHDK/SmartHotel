@@ -43,7 +43,7 @@ class HabitacionShow extends StatelessWidget {
           Hero(
             tag: "he",
             child: Image.asset(
-              'assets/img/habitacion.jpg',
+              'assets/img/habitacion${habitacion.numero_habitacion}.jpg',
               height: MediaQuery.of(context).size.height * 0.35,
             ),
           ),

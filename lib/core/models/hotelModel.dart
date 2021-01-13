@@ -9,16 +9,6 @@ class Hotel {
   String estado;
   String id_administrador;
   String num_habitaciones;
-
-  /*Hotel(
-      {@required this.id,
-      @required this.nombre,
-      @required this.colonia,
-      @required this.calle,
-      @required this.municipio,
-      @required this.estado,
-      @required this.id_administrador,
-      @required this.num_habitaciones});*/
   Hotel(
       {this.id,
       this.nombre,

@@ -2,6 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hoteles/core/models/habitacionModel.dart';
 import 'package:hoteles/core/viewmodels/CRUDHabitacion.dart';
+import 'package:hoteles/user/widgets/gradient_back.dart';
+import 'package:hoteles/widgets/button_purple.dart';
+import 'package:hoteles/widgets/card_image.dart';
+import 'package:hoteles/widgets/title_header.dart';
 import 'package:provider/provider.dart';
 
 class HabitacionModify extends StatefulWidget {
@@ -34,128 +38,177 @@ class _HabitacionModifyState extends State<HabitacionModify> {
   Widget build(BuildContext context) {
     final habitacionProvider = Provider.of<CRUDHabitacion>(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text('Modificar Habitacion'),
-        ),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(12),
-        child: Form(
-          key: _formKey,
-          child: Column(
+      body: Stack(
+        children: <Widget>[
+          GradientBack(
+            height: 300.0,
+          ),
+          Row(
+            //Appbar
             children: <Widget>[
-              TextFormField(
-                  initialValue: widget.habitacion.tipo_habitacion,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      hintText: 'Tipo Habitacion',
-                      filled: true,
-                      labelText: 'Tipo Habitacion'),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Por favor introduce el tipo de habitacion';
-                    }
-                  },
-                  onSaved: (value) => tipo_habitacion = value),
-              SizedBox(
-                height: 16,
+              Container(
+                padding: EdgeInsets.only(top: 25.0, left: 5.0),
+                child: SizedBox(
+                  height: 45.0,
+                  width: 45.0,
+                  child: IconButton(
+                      icon: Icon(
+                        Icons.keyboard_arrow_left,
+                        color: Colors.white,
+                        size: 45,
+                      ),
+                      onPressed: () {
+                        Navigator.pop(
+                            context); //con este metodo regreso a la pantalla anterior
+                      }),
+                ),
               ),
-              TextFormField(
-                  initialValue: widget.habitacion.numero_habitacion,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      hintText: 'Número habitación',
-                      filled: true,
-                      labelText: 'Número habitación'),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Por favor introduce el número de la habitacion';
-                    }
-                  },
-                  onSaved: (value) => numero_habitacion = value),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                  initialValue: widget.habitacion.piso,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      hintText: 'Introduce el piso',
-                      filled: true,
-                      labelText: 'Piso'),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Por favor introduce la calle';
-                    }
-                  },
-                  onSaved: (value) => piso = value),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                  initialValue: widget.habitacion.vista,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      hintText: 'Introduce la vista de la habitacion',
-                      filled: true,
-                      labelText: 'Vista'),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Por favor introduce la vista';
-                    }
-                  },
-                  onSaved: (value) => vista = value),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                  initialValue: widget.habitacion.precio,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0)),
-                      hintText: 'Introduce el precio',
-                      filled: true,
-                      labelText: 'Precio'),
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return 'Por favor introduce el precio';
-                    }
-                  },
-                  onSaved: (value) => precio = value),
-              SizedBox(
-                height: 16,
-              ),
-              RaisedButton(
-                splashColor: Colors.red,
-                onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    _formKey.currentState.save();
-                    await habitacionProvider.updateHabitacion(
-                        Habitacion(
-                          numero_habitacion: numero_habitacion,
-                          tipo_habitacion: tipo_habitacion,
-                          vista: vista,
-                          piso: piso,
-                          precio: precio,
-                          id_administrador: user.uid,
-                          status: widget.habitacion.status,
-                        ),
-                        widget.habitacion.id);
-                    Navigator.pop(context);
-                  }
-                },
-                child: Text('Modificar Habitacion',
-                    style: TextStyle(color: Colors.white)),
-                color: Colors.blue,
-              )
+              Flexible(
+                  child: Container(
+                padding: EdgeInsets.only(top: 45.0, left: 20.0, right: 10.0),
+                child: TitleHeader(title: "Modificar habitacion"),
+              ))
             ],
           ),
-        ),
+          Container(
+            margin: EdgeInsets.only(top: 120.0, bottom: 20.0),
+            child: ListView(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  child: CardImageWithFabIcon(
+                    pathImage: "assets/img/habitacion1.jpg",
+                    iconData: Icons.camera_alt,
+                    width: 350.0,
+                    height: 250.0,
+                    left: 0,
+                    onPressedFabIcon: null,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(12),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: <Widget>[
+                        TextFormField(
+                            initialValue: widget.habitacion.tipo_habitacion,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                hintText: 'Tipo Habitacion',
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'Tipo Habitacion'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor introduce el tipo de habitacion';
+                              }
+                            },
+                            onSaved: (value) => tipo_habitacion = value),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                            initialValue: widget.habitacion.numero_habitacion,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                hintText: 'Número habitación',
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'Número habitación'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor introduce el número de la habitacion';
+                              }
+                            },
+                            onSaved: (value) => numero_habitacion = value),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                            initialValue: widget.habitacion.piso,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                hintText: 'Introduce el piso',
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'Piso'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor introduce la calle';
+                              }
+                            },
+                            onSaved: (value) => piso = value),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                            initialValue: widget.habitacion.vista,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                hintText: 'Introduce la vista de la habitacion',
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'Vista'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor introduce la vista';
+                              }
+                            },
+                            onSaved: (value) => vista = value),
+                        SizedBox(
+                          height: 16,
+                        ),
+                        TextFormField(
+                            initialValue: widget.habitacion.precio,
+                            decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20.0)),
+                                hintText: 'Introduce el precio',
+                                filled: true,
+                                fillColor: Colors.white,
+                                labelText: 'Precio'),
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Por favor introduce el precio';
+                              }
+                            },
+                            onSaved: (value) => precio = value),
+                        Container(
+                          width: 350.0,
+                          child: ButtonPurple(
+                            buttonText: "Editar habitacion",
+                            onPressed: () async {
+                              if (_formKey.currentState.validate()) {
+                                _formKey.currentState.save();
+                                await habitacionProvider.updateHabitacion(
+                                    Habitacion(
+                                      numero_habitacion: numero_habitacion,
+                                      tipo_habitacion: tipo_habitacion,
+                                      vista: vista,
+                                      piso: piso,
+                                      precio: precio,
+                                      id_administrador: user.uid,
+                                      status: widget.habitacion.status,
+                                    ),
+                                    widget.habitacion.id);
+                                Navigator.pop(context);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

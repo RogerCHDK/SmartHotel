@@ -26,7 +26,7 @@ class HabitacionCard extends StatelessWidget {
                 Hero(
                   tag: habitacionDetails.id,
                   child: Image.asset(
-                    'assets/img/habitacion.jpg',
+                    'assets/img/habitacion${habitacionDetails.numero_habitacion}.jpg',
                     height: MediaQuery.of(context).size.height * 0.35,
                   ),
                 ),
